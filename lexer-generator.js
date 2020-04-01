@@ -20,3 +20,4 @@ let lexer = buildLexer(tokens);
 console.log(lexer);
 lexer(str);
 
+//6ee67e36cf37f1c59cb845deb14f9e7e32096e83

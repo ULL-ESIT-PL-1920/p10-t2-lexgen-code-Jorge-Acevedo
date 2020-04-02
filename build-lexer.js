@@ -13,7 +13,7 @@ module.exports = function makeLexer(tokens) {
     const sources = regexps.map(r => r.source);
     const union = sources.join('|');
     // console.log(union);
-    return new RegExp(union, 'y');
+    return new RegExp(union, 'yu');
   };
 
   const regexp = buildOrRegexp(tokenRegs);

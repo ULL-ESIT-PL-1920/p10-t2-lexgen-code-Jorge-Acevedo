@@ -1,7 +1,7 @@
 'use strict';
 const buildLexer = require('./build-lexer.js');
 
-const str = 'const varName = "value"';
+const str = 'const varName = "value"\n let string = "This a test"';
 console.log(str);
 
 const SPACE = /(?<SPACE>\s+)/;
@@ -13,12 +13,12 @@ const ERROR = /./;
 
 const tokens = [
   ['SPACE', SPACE], ['RESERVEDWORD', RESERVEDWORD], ['ID', ID], 
-  ['STRING', STRING], ['OP', OP], ['ERROR', ERROR] 
+  ['STRING', STRING], ['OP', OP]
 ];
 
 let lexer = buildLexer(tokens);
 console.log(lexer);
-lexer(str);
+console.log(lexer(str));
 
 //6ee67e36cf37f1c59cb845deb14f9e7e32096e83
 

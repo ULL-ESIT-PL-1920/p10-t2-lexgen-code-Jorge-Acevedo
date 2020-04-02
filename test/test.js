@@ -7,7 +7,7 @@ const ins = (x) => { if (debug) console.log(inspect(x, {depth: null})) };
 const buildLexer =require('../build-lexer.js');
 
 const SPACE = /(?<SPACE>\s+|\/\/.*)/;
-const RESERVEDWORD = /(?<RESERVEDWORD>\b(const|let)\b)/;
+const RESERVEDWORD = /(?<RESERVEDWORD>\b(const|let|var)\b)/;
 const ID = /(?<ID>\b([a-z_]\w*))\b/;
 const STRING = /(?<STRING>"([^\\"]|\\.")*")/;
 const OP = /(?<OP>[+*\/=-])/;
@@ -21,6 +21,7 @@ let str, lexer, r;
 lexer = buildLexer(myTokens);
 console.log("lexer en el test: ");
 console.log(lexer);
+
 
 str = 'const varName = "value"';
 ins(str);
@@ -67,3 +68,53 @@ expected = [
 test(str, () => {
   expect(r).toEqual(expected);
 });
+
+str = 'var abc_ = acb';
+ins(str);
+r = lexer(str);
+ins(r);
+expected = [
+  { type: 'RESERVEDWORD', value: 'var' },
+  { type: 'ID', value: 'abc_' },
+  { type: 'OP', value: '=' },
+  { type: 'ID', value: 'acb' }
+];
+
+test(str, () => {
+  expect(r).toEqual(expected);
+});
+
+str = 'var abc_ = acb\n let x = y\n const w = z\n // This should not appear';
+ins(str);
+r = lexer(str);
+ins(r);
+expected = [
+  { type: 'RESERVEDWORD', value: 'var' },
+  { type: 'ID', value: 'abc_' },
+  { type: 'OP', value: '=' },
+  { type: 'ID', value: 'acb' },
+  { type: 'RESERVEDWORD', value: 'let' },
+  { type: 'ID', value: 'x' },
+  { type: 'OP', value: '=' },
+  { type: 'ID', value: 'y' },
+  { type: 'RESERVEDWORD', value: 'const' },
+  { type: 'ID', value: 'w' },
+  { type: 'OP', value: '=' },
+  { type: 'ID', value: 'z' }
+];
+
+test(str, () => {
+  expect(r).toEqual(expected);
+});
+
+test("is lexer a function?", () => {
+  expect(lexer).toBeInstanceOf(Function);
+});
+
+test("is the lexer returing an array?", () => {
+  expect(r).toBeInstanceOf(Array);
+});
+
+test("is the lexer returning an object array", () => {
+  expect(r[0]).toBeInstanceOf(Object);
+})

@@ -1,4 +1,5 @@
-module.exports = function (tokens) {
+module.exports = function makeLexer(tokens) {
+  
   const tokenNames = tokens.map(t => {
     if (t[0] != 'ERROR') {
       return t[0];

@@ -1,3 +1,4 @@
+//jsdoc npmignore license
 module.exports = function makeLexer(tokens) {
   
   const tokenNames = tokens.map(t => {
